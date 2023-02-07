@@ -1,27 +1,30 @@
 import scrapy
 from ..items import AmazonproductscrapperItem
 class QuoteSpider(scrapy.Spider):
-    name = "quotes"
+    name = "amazon"
     start_urls = [
-        "https://quotes.toscrape.com/"
+        "https://www.amazon.com/b?node=283155"
     ]
     def parse(self, response):
         items = AmazonproductscrapperItem()
+        # products = response.css('div.p13n-gridRow _cDEzb_grid-row_3VsqC::text').extract()
+        product = response.css('div#gridItemRoot').extract()
 
-        all_div_quotes = response.css('div.quote')
+        for i in product:
+            product_name = i.css('div.p13n-sc-truncate-desktop-type2  p13n-sc-truncated::text').extract()
+            product_price = i.css('span._cDEzb_p13n-sc-price_3mJ9Z::text').extract()
+            product_stars = i.css('span.a-icon-alt::text').extract()
+            product_ratings = i.css('span.a-size-small::text').extract()
 
-        for quotes in all_div_quotes:
-            title = quotes.css('span.text::text').extract()
-            author = quotes.css('.author::text').extract()
-            tag = quotes.css('.tag::text').extract()
+            items['product_name'] = product_name
+            items['product_price'] = product_price
+            items['product_stars'] = product_stars
+            items['product_ratings'] = product_ratings
 
-            items['title'] = title
-            items['author'] = author
-            items['tag'] = tag
 
             yield items
 
-        next_page = response.css('li.next a::attr(href)').get()
 
-        if next_page is not None:
-            yield response.follow(next_page, callback = self.parse)
+
+
+

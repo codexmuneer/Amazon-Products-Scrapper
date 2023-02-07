@@ -15,27 +15,29 @@ class AmazonproductscrapperPipeline(object):
         self.create_table()
 
     def create_connection(self):
-        self.conn = sqlite3.connect("myquotes.db")
+        self.conn = sqlite3.connect("productdetails.db")
         self.curr = self.conn.cursor()
 
 
     def create_table(self):
-        self.curr.execute("""DROP TABLE IF EXISTS quotes_db""")
-        self.curr.execute("""CREATE TABLE quotes_tb(
-        title TEXT,
-        author TEXT,
-        tag TEXT
+        self.curr.execute("""DROP TABLE IF EXISTS productdetails""")
+        self.curr.execute("""CREATE TABLE productdetails(
+        product_name TEXT,
+        product_price REAL,
+        product_stars REAL,
+        product_ratings INTEGER
         )""")
     def process_item(self, item, spider):
         self.store_db(item)
-        print("Pipeline: " + item['title'][0] )
+        print("Pipeline: " + item['product_name'][0] )
         return item
 
     def store_db(self,item):
         self.curr.execute("INSERT INTO quotes_tb VALUES (?,?,?)",[
-            (item['title'][0]),
-            (item['author'][0]),
-            (item['tag'][0])
+            (item['product_name'][0]),
+            (item['product_price'][0]),
+            (item['product_stars'][0]),
+            (item['product_ratings'][0])
         ]
         )
         self.conn.commit()
