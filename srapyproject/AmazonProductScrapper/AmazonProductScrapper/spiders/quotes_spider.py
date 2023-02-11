@@ -1,7 +1,7 @@
 import scrapy
 from ..items import AmazonproductscrapperItem
 class QuoteSpider(scrapy.Spider):
-    name = "amazon"
+    name = "quotes"
     start_urls = [
         "https://www.amazon.com/b?node=283155"
     ]

@@ -15,6 +15,7 @@ NEWSPIDER_MODULE = 'AmazonProductScrapper.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'AmazonProductScrapper (+http://www.yourdomain.com)'
+# USER_AGENT = 'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.86 Mobile Safari/537.36 (compatible; Googlebot/2.1; http://www.google.com/bot.html)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -48,11 +49,17 @@ ROBOTSTXT_OBEY = True
 #    'AmazonProductScrapper.middlewares.AmazonproductscrapperSpiderMiddleware': 543,
 #}
 
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
+}
+
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
 #    'AmazonProductScrapper.middlewares.AmazonproductscrapperDownloaderMiddleware': 543,
 #}
+
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
