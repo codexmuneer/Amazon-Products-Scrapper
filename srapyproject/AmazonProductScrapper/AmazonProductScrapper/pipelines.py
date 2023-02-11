@@ -23,21 +23,21 @@ class AmazonproductscrapperPipeline(object):
         self.curr.execute("""DROP TABLE IF EXISTS productdetails""")
         self.curr.execute("""CREATE TABLE productdetails(
         product_name TEXT,
-        product_price REAL,
-        product_stars REAL,
-        product_ratings INTEGER
+        product_price TEXT,
+        product_stars TEXT,
+        product_ratings TEXT
         )""")
     def process_item(self, item, spider):
         self.store_db(item)
-        print("Pipeline: " + item['product_name'][0] )
+        print("Pipeline: " + item['product_name'] )
         return item
 
     def store_db(self,item):
-        self.curr.execute("INSERT INTO quotes_tb VALUES (?,?,?)",[
-            (item['product_name'][0]),
-            (item['product_price'][0]),
-            (item['product_stars'][0]),
-            (item['product_ratings'][0])
+        self.curr.execute("INSERT INTO productdetails VALUES (?,?,?)",[
+            (item['product_name']),
+            (item['product_price']),
+            (item['product_stars']),
+            (item['product_ratings'])
         ]
         )
         self.conn.commit()
